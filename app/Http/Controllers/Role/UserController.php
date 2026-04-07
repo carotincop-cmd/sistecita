@@ -27,23 +27,13 @@ class UserController extends Controller
             })
             ->latest()
             ->paginate(5)
-            ->withQueryString(); // Mantener filtros en paginación
+            ->withQueryString();
 
-        $roles = Role::orderBy('name')->get();
+        // SOLO ESTO necesitas
+        $roles = Role::where('status', true)->orderBy('name')->get();
 
         return view('users.index', compact('users', 'roles'));
     }
-
-    /**
-     * Mostrar formulario de creación
-     */
-    public function create()
-    {
-        $roles = Role::where('status', true)->orderBy('name')->get();
-
-        return view('users.create', compact('roles'));
-    }
-
     /**
      * Guardar nuevo usuario
      */
@@ -68,16 +58,6 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', 'Usuario creado correctamente.');
-    }
-
-    /**
-     * Mostrar formulario de edición
-     */
-    public function edit(User $user)
-    {
-        $roles = Role::where('status', true)->orderBy('name')->get();
-
-        return view('users.edit', compact('user', 'roles'));
     }
 
     /**

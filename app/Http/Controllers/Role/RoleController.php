@@ -35,15 +35,9 @@ class RoleController extends Controller
             'search' => $search,
             'status' => $status
         ]);
+         $modules = Module::where('status', true)->orderBy('name')->get();
 
-        return view('roles.index', compact('roles', 'search', 'status'));
-    }
-
-    public function create()
-    {
-        $modules = Module::where('status', true)->orderBy('name')->get();
-
-        return view('roles.create', compact('modules'));
+        return view('roles.index', compact('roles', 'search', 'status', 'modules'));
     }
 
     public function store(Request $request)
@@ -68,14 +62,6 @@ class RoleController extends Controller
         return redirect()
             ->route('roles.index')
             ->with('success', 'Rol creado correctamente.');
-    }
-
-    public function edit(Role $role)
-    {
-        $modules = Module::where('status', true)->orderBy('name')->get();
-        $selectedModules = $role->modules->pluck('id')->toArray();
-
-        return view('roles.edit', compact('role', 'modules', 'selectedModules'));
     }
 
     public function update(Request $request, Role $role)

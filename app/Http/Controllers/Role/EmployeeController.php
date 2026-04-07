@@ -10,46 +10,35 @@ use Illuminate\Http\Request;
 class EmployeeController extends Controller
 {
     /**
-     * Mostrar lista de empleados.
+     * Mostrar lista de empleados (Index con modal).
      */
-    public function index(Request $request)
+   public function index(Request $request)
     {
+        // Empleados con su usuario y rol
         $employees = Employee::with(['user.role'])
-            // FILTRAR POR NOMBRE (first_name + last_name)
             ->when($request->search, function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('first_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('last_name', 'like', '%' . $request->search . '%');
+                      ->orWhere('last_name', 'like', '%' . $request->search . '%');
                 });
             })
-
-            // FILTRAR POR ESTADO
             ->when($request->status !== null && $request->status !== '', function ($query) use ($request) {
                 $query->where('status', $request->status);
             })
-
             ->latest()
             ->paginate(5)
-            ->withQueryString(); // mantiene filtros en la paginación
+            ->withQueryString();
 
-        // Roles disponibles para filtrar
+        // Roles disponibles para filtro
         $roles = \App\Models\Role::orderBy('name')->get();
 
-        return view('employees.index', compact('employees', 'roles'));
-    }
+        // Todos los usuarios Staff con relación employee
+        $users = User::whereHas('role', fn($q) => $q->where('name', 'Staff'))
+                     ->with('employee') // para saber si ya están asignados
+                     ->orderBy('name')
+                     ->get();
 
-    /**
-     * Mostrar formulario de creación.
-     */
-    public function create()
-    {
-    $users = User::whereHas('role', function($q){
-            $q->where('name', 'Staff');
-        })
-        ->whereDoesntHave('employee') // evita usuarios ya usados
-        ->get();
-
-    return view('employees.create', compact('users'));
+        return view('employees.index', compact('employees', 'roles', 'users'));
     }
 
     /**
@@ -65,7 +54,6 @@ class EmployeeController extends Controller
             'specialty'   => 'nullable|string|max:255',
             'commission'  => 'nullable|numeric|min:0',
             'status'      => 'boolean',
-
             'work_start'  => 'nullable|date_format:H:i',
             'work_end'    => 'nullable|date_format:H:i',
             'days_off'    => 'nullable|array',
@@ -73,47 +61,9 @@ class EmployeeController extends Controller
 
         Employee::create($validated);
 
-        return redirect()
-            ->route('employees.index')
-            ->with('success', 'Empleado creado correctamente.');
+        return redirect()->route('employees.index')
+                         ->with('success', 'Empleado creado correctamente.');
     }
-
-    /**
-     * Mostrar información de un empleado.
-     */
-    public function show($id)
-    {
-        $employee = Employee::with('user')->findOrFail($id);
-
-        return view('employees.show', compact('employee'));
-    }
-
-    /**
-     * Formulario para editar empleado.
-     */
-    public function edit($id)
-    {
-    $employee = Employee::findOrFail($id);
-
-    // Obtener solo usuarios Staff y disponibles + el asociado actual
-    $users = User::whereHas('role', function($q) {
-            $q->where('name', 'Staff');
-        })
-        ->where(function($q) use ($employee) {
-            $q->whereDoesntHave('employee')   // usuarios libres
-              ->orWhere('id', $employee->user_id); // usuario actual
-        })
-        ->orderBy('name')
-        ->get();
-
-    // Decodificar días libres
-    $employee->days_off = is_string($employee->days_off)
-        ? json_decode($employee->days_off, true)
-        : ($employee->days_off ?? []);
-
-    return view('employees.edit', compact('employee', 'users'));
-    }
-
     /**
      * Actualizar empleado.
      */
@@ -127,7 +77,6 @@ class EmployeeController extends Controller
             'specialty'   => 'nullable|string|max:255',
             'commission'  => 'nullable|numeric|min:0',
             'status'      => 'boolean',
-
             'work_start'  => 'nullable|date_format:H:i',
             'work_end'    => 'nullable|date_format:H:i',
             'days_off'    => 'nullable|array',
@@ -136,9 +85,8 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $employee->update($validated);
 
-        return redirect()
-            ->route('employees.index')
-            ->with('success', 'Empleado actualizado exitosamente.');
+        return redirect()->route('employees.index')
+                         ->with('success', 'Empleado actualizado exitosamente.');
     }
 
     /**
@@ -149,8 +97,7 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $employee->delete();
 
-        return redirect()
-            ->route('employees.index')
-            ->with('success', 'Empleado eliminado correctamente.');
+        return redirect()->route('employees.index')
+                         ->with('success', 'Empleado eliminado correctamente.');
     }
 }

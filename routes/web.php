@@ -20,18 +20,17 @@ Route::middleware(['auth'])->group(function () {
     })->middleware('module:dashboard')->name('dashboard');
 
     Route::resource('roles', RoleController::class)
-        ->except(['show'])
+        ->except(['show', 'create', 'edit'])
         ->middleware('module:roles');
 
     Route::resource('users', UserController::class)
-        ->except(['show'])
+        ->except(['show', 'create', 'edit'])
         ->middleware('module:users');
 
-    // 🔹 NUEVO → módulo de empleados
     Route::resource('employees', EmployeeController::class)
-        ->except(['show'])   // si quieres permitir show simplemente quita esta línea
+        ->except(['show', 'create', 'edit'])   
         ->middleware('module:employees');
-    // 🔹 NUEVO → Módulo de clientes
+
     Route::resource('clients', ClientController::class)
         ->only(['index', 'destroy'])
         ->middleware('module:clients');
