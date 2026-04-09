@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Role\RoleController;
-use App\Http\Controllers\Role\UserController;
-use App\Http\Controllers\Role\EmployeeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Role\ClientController;
-use App\Http\Controllers\Role\ServiceCategoryController;
-use App\Http\Controllers\Role\ServiceController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ServiceCategoryController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Dashboard\DashboardController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -35,17 +36,14 @@ Route::middleware(['auth'])->group(function () {
         ->only(['index', 'destroy'])
         ->middleware('module:clients');
 
-// ===========================
-// 🟩 MÓDULO CATEGORÍAS DE SERVICIOS
-// ===========================
-Route::resource('service-categories', ServiceCategoryController::class)
-    ->except(['show'])
-    ->middleware('module:service-categories');
+    Route::resource('service-categories', ServiceCategoryController::class)
+        ->except(['show', 'create', 'edit'])
+        ->middleware('module:service-categories');
 
-// ===========================
-// 🟦 MÓDULO SERVICIOS
-// ===========================
-Route::resource('services', ServiceController::class) 
-    ->except(['show'])
-    ->middleware('module:services');
+    Route::resource('services', ServiceController::class) 
+        ->except(['show', 'create', 'edit'])
+        ->middleware('module:services');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
 });
