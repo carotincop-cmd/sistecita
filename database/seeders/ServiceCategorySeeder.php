@@ -51,6 +51,7 @@ class ServiceCategorySeeder extends Seeder
                 [
                     'name' => $category['name'],
                     'description' => $category['description'],
+                    'image' => null, 
                     'status' => true,
                 ]
             );

@@ -13,12 +13,11 @@
 
     <!-- Navegación -->
     <nav class="flex-1 px-4 py-6 space-y-2">
+
         @if(auth()->user()->hasModuleAccess('dashboard'))
-        <a href="{{ route('admin.dashboard') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('dashboard') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+        <a href="{{ route('admin.dashboard') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('dashboard') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h8V3H3v10zM13 21h8v-6h-8v6zM13 3v6h8V3h-8zM3 21h8v-6H3v6z"/>
             </svg>
@@ -27,11 +26,9 @@
         @endif
 
         @if(auth()->user()->hasModuleAccess('roles'))
-        <a href="{{ route('roles.index') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('roles.*') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+        <a href="{{ route('roles.index') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('roles.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422A12.083 12.083 0 0112 21a12.083 12.083 0 01-6.16-10.422L12 14z"/>
             </svg>
@@ -40,11 +37,9 @@
         @endif
 
         @if(auth()->user()->hasModuleAccess('users'))
-        <a href="{{ route('users.index') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('users.*') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+        <a href="{{ route('users.index') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('users.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 7a4 4 0 11-8 0 4 4 0 018 0z"/>
             </svg>
@@ -53,11 +48,9 @@
         @endif
 
         @if(auth()->user()->hasModuleAccess('employees'))
-        <a href="{{ route('employees.index') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('employees.*') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+        <a href="{{ route('employees.index') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('employees.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 6.196M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
@@ -66,11 +59,9 @@
         @endif
 
         @if(auth()->user()->hasModuleAccess('clients'))
-        <a href="{{ route('clients.index') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('clients.*') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+        <a href="{{ route('clients.index') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('clients.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20h10M12 4a4 4 0 014 4v4a4 4 0 11-8 0V8a4 4 0 014-4z"/>
             </svg>
@@ -78,29 +69,77 @@
         </a>
         @endif
 
+        {{-- SERVICES --}}
         @if(auth()->user()->hasModuleAccess('services'))
-        <a href="{{ route('service-categories.index') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('service-categories.*') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+
+        <a href="{{ route('service-categories.index') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('service-categories.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
             Categorías de Servicios
         </a>
 
-        <a href="{{ route('services.index') }}"
-           class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
-           {{ request()->routeIs('services.*') 
-               ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
-               : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+        <a href="{{ route('services.index') }}" class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('services.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"/>
             </svg>
             Servicios
         </a>
+
         @endif
+
+        {{-- CITAS --}}
+        @if(auth()->user()->hasModuleAccess('cites'))
+        <a href="{{ route('cites.index') }}" 
+        class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+        {{ request()->routeIs('citas.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+
+            Citas
+        </a>
+    @endif
+    {{-- CAROUSEL --}}
+    @if(auth()->user()->hasModuleAccess('carousel'))
+    <a href="{{ route('carousel.index') }}" 
+    class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+    {{ request()->routeIs('carousel.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+    : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 5h16v14H4V5zm2 2v10h12V7H6zm2 2h3v3H8V9zm0 5h8"/>
+        </svg>
+
+        Carousel
+    </a>
+    @endif
+    {{-- DIRECCIONES --}}
+    @if(auth()->user()->hasModuleAccess('BusinessSetting'))
+    <a href="{{ route('direccion.index') }}" 
+    class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+    {{ request()->routeIs('direccion.*') ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+    : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+
+        Direcciones
+    </a>
+    @endif
+
     </nav>
 
     <!-- Logout -->

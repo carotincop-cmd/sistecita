@@ -4,13 +4,16 @@
 
 @section('content')
 
-<div x-data="categoryModal()" x-cloak>
+<div x-data="categoryModal()">
     @include('admin.service-categories.partials._header')
     @include('admin.service-categories.partials._filters')
     @include('admin.service-categories.partials._alerts')
     @include('admin.service-categories.partials._table', ['categories' => $categories])
     @include('admin.service-categories.partials._pagination', ['categories' => $categories])
-    @include('admin.service-categories.partials._modal')
+
+    <template x-teleport="body">
+        @include('admin.service-categories.partials._modal')
+    </template>
 </div>
 
 @endsection

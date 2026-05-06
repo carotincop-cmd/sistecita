@@ -200,6 +200,7 @@ document.addEventListener('alpine:init', () => {
             this.availableUsers = [];
         }
     }));
+
 // 🔥 CATEGORY MODAL
 Alpine.data('categoryModal', () => ({
     open: false,
@@ -331,6 +332,313 @@ Alpine.data('categoryModal', () => ({
 
     }));
     @endisset
+//cite modal
+ Alpine.data('citeModal', () => ({
+    open: false,
+    isEdit: false,
+    formAction: '',
 
+    // 📅 fecha actual
+    today: new Date().toISOString().split('T')[0],
+
+    form: {
+        id: null,
+        client_id: '',
+        employee_id: '',
+        service_id: '',
+        duration: 0,
+        date: '',
+        start_time: '',
+        end_time: '',
+        status: 'pending'
+    },
+
+    openCreate() {
+        this.open = true;
+        this.isEdit = false;
+        this.formAction = "{{ route('cites.store') }}";
+        this.resetForm();
+    },
+
+    openEdit(cite) {
+        this.open = true;
+        this.isEdit = true;
+        this.formAction = "{{ url('cites') }}/" + cite.id;
+
+        this.form = {
+            id: cite.id,
+            client_id: cite.client_id ? String(cite.client_id) : '',
+            employee_id: cite.employee_id ? String(cite.employee_id) : '',
+            service_id: cite.service_id ? String(cite.service_id) : '',
+            duration: cite.service?.duration ?? 0,
+            date: cite.date ?? '',
+            start_time: cite.start_time ?? '',
+            end_time: cite.end_time ?? '',
+            status: cite.status ?? 'pending'
+        };
+    },
+
+    // 🔥 duración del servicio
+    setDuration(event) {
+        const selected = event.target.options[event.target.selectedIndex];
+        this.form.duration = parseInt(selected.dataset.duration) || 0;
+        this.calculateEndTime();
+    },
+
+    // ⏰ hora actual real (sin errores de formato)
+    get nowTime() {
+        return new Date().toTimeString().slice(0, 5);
+    },
+
+    // 📅 validar si es hoy
+    isToday() {
+        return this.form.date === this.today;
+    },
+
+    // ⚙️ VALIDACIÓN REAL FRONTEND
+    validateStartTime() {
+        if (!this.form.date || !this.form.start_time) return;
+
+        if (this.isToday()) {
+
+            const now = this.nowTime;
+
+            // ⛔ si es menor a hora actual → corregir
+            if (this.form.start_time < now) {
+                this.form.start_time = now;
+            }
+        }
+
+        this.calculateEndTime();
+    },
+
+    // ⏱ calcular hora fin
+    calculateEndTime() {
+        if (!this.form.start_time || !this.form.duration) return;
+
+        let [h, m] = this.form.start_time.split(':').map(Number);
+
+        let total = h * 60 + m + this.form.duration;
+
+        let endH = Math.floor(total / 60);
+        let endM = total % 60;
+
+        this.form.end_time =
+            String(endH).padStart(2, '0') + ':' +
+            String(endM).padStart(2, '0');
+    },
+
+    // 🔁 cuando cambia fecha
+    onDateChange() {
+        if (!this.isToday()) return;
+
+        this.validateStartTime();
+    },
+
+    close() {
+        this.open = false;
+    },
+
+    resetForm() {
+        this.form = {
+            id: null,
+            client_id: '',
+            employee_id: '',
+            service_id: '',
+            duration: 0,
+            date: '',
+            start_time: '',
+            end_time: '',
+            status: 'pending'
+        };
+    }
+}));
+
+ // 🔥 CLIENTE MODAL
+Alpine.data('clientModal', () => ({
+    open: false,
+    isEdit: false,
+    formAction: '',
+
+    form: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        phone: '',
+        email: '',
+        notes: ''
+    },
+
+    openCreate() {
+        this.open = true;
+        this.isEdit = false;
+        this.formAction = @json(route('clients.store'));
+        this.resetForm();
+    },
+
+    openEdit(client) {
+        this.open = true;
+        this.isEdit = true;
+        this.formAction = `/clients/${client.id}`;
+
+        this.form = {
+            id: client.id,
+            first_name: client.first_name,
+            last_name: client.last_name ?? '',
+            phone: client.phone ?? '',
+            email: client.email ?? '',
+            notes: client.notes ?? ''
+        };
+    },
+
+    close() {
+        this.open = false;
+    },
+
+    resetForm() {
+        this.form = {
+            id: null,
+            first_name: '',
+            last_name: '',
+            phone: '',
+            email: '',
+            notes: ''
+        };
+    }
+}));
+
+{{-- 🔥 CAROUSEL MODAL --}}
+Alpine.data('carouselModal', () => ({
+    open: false,
+    editMode: false,
+    formAction: '',
+
+    form: {
+        id: null,
+        title: '',
+        subtitle: '',
+        description: '',
+        button_text: '',
+        button_link: '',
+        position: 0,
+        status: true
+    },
+
+    openCreate() {
+        this.open = true;
+        this.editMode = false;
+        this.formAction = "{{ route('carousel.store') }}";
+        this.resetForm();
+    },
+
+    editSlide(slide) {
+        this.open = true;
+        this.editMode = true;
+        this.formAction = "{{ url('carousel') }}/" + slide.id;
+
+        this.form = {
+            id: slide.id,
+            title: slide.title ?? '',
+            subtitle: slide.subtitle ?? '',
+            description: slide.description ?? '',
+            button_text: slide.button_text ?? '',
+            button_link: slide.button_link ?? '',
+            position: slide.position ?? 0,
+            status: slide.status ? true : false
+        };
+    },
+
+    closeModal() {
+        this.open = false;
+    },
+
+    resetForm() {
+        this.form = {
+            id: null,
+            title: '',
+            subtitle: '',
+            description: '',
+            button_text: '',
+            button_link: '',
+            position: 0,
+            status: true
+        };
+    }
+}));
+
+// 🔥 BUSINESS SETTING MODAL
+Alpine.store('bsModal', {
+    open: false,
+    editMode: false,
+    formAction: '',
+
+    form: {
+        id: null,
+        business_name: '',
+        logo: '',
+        address: '',
+        district: '',
+        city: '',
+        reference: '',
+        phone: '',
+        whatsapp: '',
+        email: '',
+        google_maps_url: '',
+        latitude: '',
+        longitude: '',
+        opening_hours: '',
+        facebook: '',
+        instagram: '',
+        tiktok: '',
+        about_text: ''
+    },
+
+    openCreate() {
+        this.editMode = false;
+        this.formAction = "{{ route('direccion.store') }}";
+        this.resetForm();
+        this.open = true;
+    },
+
+    editSetting(setting) {
+        this.editMode = true;
+        this.formAction = "{{ url('direccion') }}/" + setting.id;
+        this.form = {
+            id: setting.id,
+            business_name: setting.business_name ?? '',
+            logo: setting.logo ?? '',
+            address: setting.address ?? '',
+            district: setting.district ?? '',
+            city: setting.city ?? '',
+            reference: setting.reference ?? '',
+            phone: setting.phone ?? '',
+            whatsapp: setting.whatsapp ?? '',
+            email: setting.email ?? '',
+            google_maps_url: setting.google_maps_url ?? '',
+            latitude: setting.latitude ?? '',
+            longitude: setting.longitude ?? '',
+            opening_hours: setting.opening_hours ?? '',
+            facebook: setting.facebook ?? '',
+            instagram: setting.instagram ?? '',
+            tiktok: setting.tiktok ?? '',
+            about_text: setting.about_text ?? ''
+        };
+        this.open = true;
+    },
+
+    closeModal() {
+        this.open = false;
+    },
+
+    resetForm() {
+        this.form = {
+            id: null, business_name: '', logo: '', address: '',
+            district: '', city: '', reference: '', phone: '',
+            whatsapp: '', email: '', google_maps_url: '',
+            latitude: '', longitude: '', opening_hours: '',
+            facebook: '', instagram: '', tiktok: '', about_text: ''
+        };
+    }
+});
 });
 </script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -49,15 +50,23 @@ class ServiceController extends Controller
     $request->validate([
         'category_id' => 'required|exists:service_categories,id',
         'name'        => 'required|string|max:255',
+        'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         'description' => 'nullable|string',
         'price'       => 'nullable|numeric|min:0',
         'duration'    => 'required|integer|min:1',
         'status'      => 'required|in:1,0',
     ]);
 
+      $imagePath = null;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('services', 'public');
+    }
+
     Service::create([
         'category_id' => $request->category_id,
         'name'        => $request->name,
+        'image'       => $imagePath,
         'description' => $request->description,
         'price'       => $request->price,
         'duration'    => $request->duration,
@@ -78,15 +87,29 @@ class ServiceController extends Controller
         $request->validate([
             'category_id'         => 'required|exists:service_categories,id',
             'name'                => 'required|string|max:255',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'description'         => 'nullable|string',
             'price'               => 'nullable|numeric|min:0',
             'duration'            => 'required|integer|min:1',
             'status'              => 'required|in:0,1',
         ]);
 
+        $imagePath = $service->image;
+
+    if ($request->hasFile('image')) {
+
+        // borrar anterior
+        if ($service->image && Storage::disk('public')->exists($service->image)) {
+            Storage::disk('public')->delete($service->image);
+        }
+
+        $imagePath = $request->file('image')->store('services', 'public');
+    }
+
         $service->update([
             'category_id'         => $request->category_id,
             'name'                => $request->name,
+            'image'       => $imagePath,
             'description'         => $request->description,
             'price'               => $request->price,
             'duration'            => $request->duration,
@@ -103,8 +126,13 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
-        $service->delete();
 
+        if ($service->image && Storage::disk('public')->exists($service->image)) {
+        Storage::disk('public')->delete($service->image);
+    }
+
+     $service->delete();
+     
         return redirect()->route('services.index')
             ->with('success', 'Servicio eliminado correctamente.');
     }

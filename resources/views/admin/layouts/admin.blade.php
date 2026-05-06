@@ -7,10 +7,10 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- 🔥 Alpine.js --}}
+    {{-- Alpine.js --}}
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    {{-- 🔥 Evita parpadeo del modal --}}
+    {{-- Evita parpadeo del modal --}}
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -40,10 +40,10 @@
 
         {{-- Content --}}
         <main class="relative z-10 flex-1 p-6 lg:p-8">
-            <div class="rounded-3xl border border-slate-200 bg-white/70 p-6 shadow-sm backdrop-blur-xl 
+            <div class="rounded-3xl border border-slate-200 bg-white/70 p-6 shadow-sm backdrop-blur-xl
                         dark:border-pink-700/40 dark:bg-[rgba(255,255,255,0.3)]">
-            
-                        @yield('content')
+
+                @yield('content')
 
             </div>
         </main>
@@ -52,6 +52,12 @@
 
 {{-- Scripts --}}
 @include('admin.layouts.scripts')
+
+{{-- 
+    ✅ MODALES — fuera de todo div con z-index, backdrop-blur o overflow
+    Todas las vistas que necesiten un modal deben usar @section('modals')
+--}}
+@yield('modals')
 
 </body>
 </html>

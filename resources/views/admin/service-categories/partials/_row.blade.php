@@ -4,6 +4,16 @@
         {{ $category->id }}
     </td>
 
+    {{-- Imagen --}}
+    <td class="px-6 py-3">
+        @if($category->image)
+            <img src="{{ asset('storage/' . $category->image) }}"
+                 class="h-12 w-16 object-cover rounded-xl border border-pink-200">
+        @else
+            <span class="text-pink-300 text-xs">Sin imagen</span>
+        @endif
+    </td>
+
     <td class="px-6 py-3 font-semibold text-pink-900">
         {{ $category->name }}
     </td>
@@ -25,12 +35,11 @@
     </td>
 
     <td class="px-6 py-3 text-right space-x-2">
-
-    <button 
-        @click='openEdit(@json($category))'
-       class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-full text-xs">
-        Editar
-    </button>
+        <button
+            @click='openEdit(@json($category))'
+            class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-full text-xs">
+            Editar
+        </button>
 
         <form action="{{ route('service-categories.destroy', $category->id) }}"
               method="POST"
@@ -38,12 +47,10 @@
               onsubmit="return confirm('¿Eliminar categoría?')">
             @csrf
             @method('DELETE')
-
             <button class="px-3 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded-full">
                 Eliminar
             </button>
         </form>
-
     </td>
 
 </tr>

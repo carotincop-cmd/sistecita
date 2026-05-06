@@ -9,6 +9,11 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\CiteController;
+use App\Http\Controllers\Admin\CarouselController;
+use App\Http\Controllers\Admin\BusinessSettingController;
+
+Route::view('/', 'app')->name('home');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -32,9 +37,9 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'create', 'edit'])   
         ->middleware('module:employees');
 
-    Route::resource('clients', ClientController::class)
-        ->only(['index', 'destroy'])
-        ->middleware('module:clients');
+   Route::resource('clients', ClientController::class)
+    ->except(['show', 'create', 'edit'])
+    ->middleware('module:clients');
 
     Route::resource('service-categories', ServiceCategoryController::class)
         ->except(['show', 'create', 'edit'])
@@ -46,4 +51,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('admin.dashboard');
+
+    Route::resource('cites', CiteController::class)
+        ->except(['show', 'create', 'edit'])
+        ->middleware('module:cites');
+
+    Route::resource('carousel', CarouselController::class)
+        ->except(['show', 'create', 'edit'])
+        ->middleware('module:carousel');
+
+    Route::resource('direccion', BusinessSettingController::class)
+        ->except(['show', 'create', 'edit'])
+        ->middleware('module:BusinessSetting');
+
 });

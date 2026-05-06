@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');                    // Nombre de la categoría
             $table->text('description')->nullable();   // Descripción opcional
+            $table->string('image')->nullable(); 
             $table->boolean('status')->default(true);  // Activo/inactivo
             $table->timestamps();
         });

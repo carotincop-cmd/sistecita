@@ -5,6 +5,7 @@
         <thead class="bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs uppercase">
             <tr>
                 <th class="px-6 py-3 text-left">ID</th>
+                <th class="px-6 py-3">Imagen</th>
                 <th class="px-6 py-3 text-left">Nombre</th>
                 <th class="px-6 py-3 text-left">Descripción</th>
                 <th class="px-6 py-3 text-center">Estado</th>

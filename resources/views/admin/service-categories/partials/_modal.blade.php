@@ -3,7 +3,7 @@
 <div x-show="open" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" x-cloak>
     <div @click.away="close()" class="bg-white rounded-2xl w-full max-w-lg p-6 space-y-6 relative">
         <h2 class="text-xl font-bold text-pink-600" x-text="isEdit ? 'Editar Categoría' : 'Nueva Categoría'"></h2>
-        <form :action="formAction" method="POST">
+        <form :action="formAction" method="POST" enctype="multipart/form-data">
             @csrf
             <template x-if="isEdit">
                 <input type="hidden" name="_method" value="PUT">

@@ -17,7 +17,10 @@
                             str_starts_with($route, 'employees.') => 'Gestión de Empleados',
                             str_starts_with($route, 'roles.') => 'Gestión de Roles',
                             str_starts_with($route, 'users.') => 'Gestión de Usuarios',
-                            str_starts_with($route, 'appointments.') => 'Citas',
+                            str_starts_with($route, 'cites.') => 'Gestión de Citas',
+                            str_starts_with($route, 'carousel.') => 'Gestión de slides',
+                            str_starts_with($route, 'BusinessSetting.') => 'Gestión de Direcciones',
+
                             default => 'Panel Admin'
                         };
                     @endphp
