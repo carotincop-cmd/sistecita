@@ -7,7 +7,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 
 
-class ServiceController extends Controller
+class ServicioController extends Controller
 {
     /**
      * Servicios activos para frontend cliente

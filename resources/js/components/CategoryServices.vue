@@ -1,5 +1,5 @@
 <template>
-  <section id="Category" class="py-20 bg-white">
+  <section id="Servicios" class="py-20 bg-white">
 
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
@@ -14,118 +14,162 @@
         </h2>
 
         <p class="mt-4 text-gray-600">
-          Selecciona una categoría y descubre nuestros servicios disponibles.
+          Selecciona una categoría y reserva directamente por WhatsApp
         </p>
       </div>
 
-      <!-- CATEGORÍAS GRANDES -->
-      <div v-if="!loadingCategories" class="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+<!-- CATEGORÍAS (GRID 2 FILAS) -->
+<div v-if="!loadingCategories"
+     class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4">
 
-        <button
-          v-for="cat in categories"
-          :key="cat.id"
-          @click="selectCategory(cat)"
-          :class="[
-            'rounded-2xl p-4 text-center font-semibold transition border',
-            selectedCategory?.id === cat.id
-              ? 'bg-pink-600 text-white shadow-lg scale-105'
-              : 'bg-white text-gray-700 hover:bg-pink-50'
-          ]"
-        >
-          {{ cat.name }}
-        </button>
+  <button
+    v-for="cat in categories"
+    :key="cat.id"
+    @click="selectCategory(cat)"
+    class="relative w-full rounded-2xl px-5 py-5 text-sm font-semibold transition-all duration-300 border overflow-hidden group"
+    :class="selectedCategory?.id === cat.id
+      ? 'bg-gradient-to-br from-pink-600 via-fuchsia-600 to-rose-500 text-white shadow-2xl scale-[1.03]'
+      : 'bg-white text-gray-700 hover:bg-pink-50 border-pink-100 hover:scale-[1.03]'"
+  >
 
-      </div>
+    <!-- efecto 3D glow -->
+    <span
+      v-if="selectedCategory?.id === cat.id"
+      class="absolute inset-0 bg-white/10 blur-2xl"
+    ></span>
+
+    <!-- brillo hover -->
+    <span
+      class="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-pink-200/20 blur-xl"
+    ></span>
+
+    <div class="relative z-10">
+      {{ cat.name }}
+    </div>
+
+  </button>
+
+</div>
 
       <!-- LOADING -->
       <div v-if="loadingCategories" class="mt-10 text-center text-pink-600">
         Cargando categorías...
       </div>
 
-      <!-- CONTENIDO -->
+      <!-- SERVICIOS -->
       <div v-if="selectedCategory" class="mt-12">
 
-        <!-- INFO CATEGORÍA -->
-        <div class="text-center mb-10">
+        <div class="text-center mb-8">
           <h3 class="text-3xl font-bold text-gray-900">
             {{ selectedCategory.name }}
           </h3>
-
-          <p class="mt-3 text-gray-600">
-            {{ selectedCategory.description || 'Servicios profesionales para realzar tu estilo.' }}
-          </p>
         </div>
 
-        <!-- LOADING SERVICIOS -->
         <div v-if="loadingServices" class="text-center text-pink-600">
           Cargando servicios...
         </div>
 
-        <!-- SERVICIOS EN CARDS -->
-        <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- WRAPPER -->
+        <div v-else class="relative">
 
+          <!-- BOTONES -->
+          <button
+            @click="scrollLeft"
+            class="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white shadow-xl p-3 hidden lg:flex"
+          >
+            ‹
+          </button>
+
+          <button
+            @click="scrollRight"
+            class="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white shadow-xl p-3 hidden lg:flex"
+          >
+            ›
+          </button>
+
+          <!-- SCROLL AREA -->
           <div
-            v-for="service in services"
-            :key="service.id"
-            class="rounded-3xl bg-white shadow-lg transition hover:shadow-2xl"
+            ref="slider"
+            class="
+              flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-5 scrollbar-hide
+
+              /* 🔥 MOBILE: 1 fila */
+              lg:flex-wrap lg:overflow-visible lg:snap-none lg:justify-center
+            "
           >
 
-            <!-- IMAGEN -->
-            <div class="relative h-56 overflow-hidden rounded-t-3xl">
-              <img
-                v-if="service.image"
-                :src="service.image"
-                :alt="service.name"
-                class="h-full w-full object-cover"
-              >
+            <div
+              v-for="service in services"
+              :key="service.id"
+              class="
+                shrink-0 snap-center
 
-              <div v-else class="w-full h-full flex items-center justify-center bg-pink-100 text-5xl">
-                💅
-              </div>
+                /* MOBILE */
+                w-[85vw]
 
-              <!-- BADGE -->
-              <div class="absolute top-3 left-3 bg-white/90 text-pink-600 text-xs font-semibold px-3 py-1 rounded-full">
-                {{ selectedCategory.name }}
-              </div>
-            </div>
+                /* TABLET */
+                sm:w-[320px]
 
-            <!-- BODY -->
-            <div class="p-5">
+                /* DESKTOP → 2 filas ordenadas */
+                lg:w-[300px]
+              "
+            >
 
-              <h3 class="text-xl font-bold text-gray-900">
-                {{ service.name }}
-              </h3>
+              <!-- CARD -->
+              <div class="h-full rounded-3xl bg-white shadow-xl border border-pink-100 overflow-hidden hover:shadow-2xl transition">
 
-              <p class="mt-2 text-sm text-gray-500 line-clamp-2">
-                {{ service.description || 'Servicio profesional con acabados impecables.' }}
-              </p>
+                <!-- IMAGE -->
+                <div class="h-56 relative overflow-hidden">
 
-              <!-- INFO -->
-              <div class="mt-4 flex justify-between items-center">
+                  <img
+                    v-if="service.image"
+                    :src="service.image"
+                    class="h-full w-full object-cover hover:scale-105 transition duration-500"
+                  />
 
-                <div>
-                  <p class="text-xs text-gray-400">Duración</p>
-                  <p class="font-semibold text-gray-800">
-                    {{ service.duration }} min
-                  </p>
+                  <div v-else class="h-full flex items-center justify-center bg-pink-100 text-5xl">
+                    💅
+                  </div>
+
+                  <div class="absolute top-3 left-3 bg-white/90 px-3 py-1 text-xs rounded-full text-pink-600">
+                    {{ selectedCategory.name }}
+                  </div>
+
                 </div>
 
-                <div class="text-right">
-                  <p class="text-xs text-gray-400">Precio</p>
-                  <p class="text-xl font-bold text-pink-600">
-                    S/ {{ service.price }}
+                <!-- CONTENT -->
+                <div class="p-5">
+
+                  <h3 class="text-lg font-bold text-gray-900">
+                    {{ service.name }}
+                  </h3>
+
+                  <p class="text-sm text-gray-500 mt-2 line-clamp-2">
+                    {{ service.description }}
                   </p>
+
+                  <div class="flex justify-between mt-4">
+                    <span class="text-sm text-gray-400">
+                      {{ service.duration }} min
+                    </span>
+
+                    <span class="text-pink-600 font-bold">
+                      S/ {{ service.price }}
+                    </span>
+                  </div>
+
+                  <!-- WHATSAPP -->
+                  <a
+                    :href="getWhatsAppLink(service)"
+                    target="_blank"
+                    class="mt-5 block text-center bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-2xl font-semibold hover:scale-105 transition"
+                  >
+                    📲 Reservar por WhatsApp
+                  </a>
+
                 </div>
 
               </div>
-
-              <!-- BOTÓN -->
-              <a
-                href="#reservar"
-                class="mt-5 block text-center rounded-2xl bg-pink-600 px-4 py-3 text-sm font-semibold text-white hover:bg-pink-700 transition"
-              >
-                Reservar cita
-              </a>
 
             </div>
 
@@ -150,45 +194,56 @@ const services = ref([])
 const loadingCategories = ref(true)
 const loadingServices = ref(false)
 
-// FETCH CATEGORÍAS
+const slider = ref(null)
+
+// 📲 WhatsApp (cámbialo)
+const whatsappNumber = '51999999999'
+
+// WhatsApp link
+const getWhatsAppLink = (service) => {
+  const msg = `Hola 👋 quiero reservar:
+Servicio: ${service.name}
+Precio: S/ ${service.price}`
+
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`
+}
+
+// scroll
+const scrollLeft = () => {
+  slider.value.scrollBy({ left: -350, behavior: 'smooth' })
+}
+
+const scrollRight = () => {
+  slider.value.scrollBy({ left: 350, behavior: 'smooth' })
+}
+
+// categorías
 const fetchCategories = async () => {
-  try {
-    const res = await axios.get('/api/categories')
-    categories.value = res.data
+  const res = await axios.get('/api/categories')
+  categories.value = res.data
 
-    if (categories.value.length) {
-      selectCategory(categories.value[0])
-    }
-
-  } catch (e) {
-    console.error(e)
-  } finally {
-    loadingCategories.value = false
+  if (categories.value.length) {
+    selectCategory(categories.value[0])
   }
+
+  loadingCategories.value = false
 }
 
-// FETCH SERVICIOS
-const fetchServices = async (categoryId) => {
-  try {
-    loadingServices.value = true
+// servicios
+const fetchServices = async (id) => {
+  loadingServices.value = true
+  const res = await axios.get('/api/services')
 
-    const res = await axios.get('/api/services')
-    services.value = res.data.filter(s => s.category_id === categoryId)
+  services.value = res.data.filter(s => s.category_id === id)
 
-  } catch (e) {
-    console.error(e)
-  } finally {
-    loadingServices.value = false
-  }
+  loadingServices.value = false
 }
 
-// SELECT CATEGORY
+// select
 const selectCategory = (cat) => {
   selectedCategory.value = cat
   fetchServices(cat.id)
 }
 
-onMounted(() => {
-  fetchCategories()
-})
+onMounted(fetchCategories)
 </script>

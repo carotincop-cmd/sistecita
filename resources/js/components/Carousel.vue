@@ -1,5 +1,5 @@
 <template>
-  <section class="hero" role="main">
+  <section id="inicio" class="hero" role="main">
 
     <!-- Wave SVG background -->
     <svg class="wave-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -65,8 +65,7 @@
         </div>
 
         <div class="btn-group">
-          <a href="#reservar" class="btn-primary">Reserve su cita ahora →</a>
-          <a href="#servicios" class="btn-outline">Ver servicios</a>
+          <a href="#Servicios" class="btn-primary">Ver servicios →</a>
         </div>
 
         <p class="caption">✦ Confirmación instantánea</p>
@@ -204,6 +203,27 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   font-family: 'Jost', sans-serif;
+
+  /* espacio para curva */
+  padding-bottom: 120px;
+}
+
+/* curva inferior ovalada */
+.hero::after {
+  content: "";
+  position: absolute;
+
+  left: -5%;
+  bottom: -140px;
+
+  width: 110%;
+  height: 260px;
+
+  background: #fff;
+
+  border-radius: 50%;
+
+  z-index: 1;
 }
 
 .wave-svg {
@@ -217,7 +237,7 @@ onBeforeUnmount(() => {
 
 .hero-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -235,15 +255,21 @@ onBeforeUnmount(() => {
   pointer-events: none;
   z-index: 0;
 }
+
 .orb-1 {
-  width: 320px; height: 320px;
+  width: 320px;
+  height: 320px;
   background: radial-gradient(circle, rgba(233,30,140,0.12) 0%, transparent 70%);
-  top: -80px; right: -60px;
+  top: -80px;
+  right: -60px;
 }
+
 .orb-2 {
-  width: 260px; height: 260px;
+  width: 260px;
+  height: 260px;
   background: radial-gradient(circle, rgba(201,152,74,0.10) 0%, transparent 70%);
-  bottom: 40px; left: -40px;
+  bottom: 40px;
+  left: -40px;
 }
 
 /* ---- Left text ---- */
@@ -276,7 +302,8 @@ onBeforeUnmount(() => {
 }
 
 .badge-dot {
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #e91e8c;
   box-shadow: 0 0 0 3px rgba(233,30,140,0.2);
@@ -284,8 +311,13 @@ onBeforeUnmount(() => {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(233,30,140,0.2); }
-  50%       { box-shadow: 0 0 0 6px rgba(233,30,140,0.1); }
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(233,30,140,0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(233,30,140,0.1);
+  }
 }
 
 h1 {
@@ -370,6 +402,7 @@ h1 {
   text-decoration: none;
   display: inline-block;
 }
+
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(233,30,140,0.4);
@@ -391,6 +424,7 @@ h1 {
   text-decoration: none;
   display: inline-block;
 }
+
 .btn-outline:hover {
   background: rgba(255,255,255,0.9);
 }
@@ -425,13 +459,14 @@ h1 {
   box-shadow: 0 10px 40px rgba(176,80,120,0.18);
   background: #fce4ec;
 }
+
 .photo-card.large {
   grid-row: span 2;
-  height: 500px; /* altura fija */
+  height: 500px;
 }
 
 .photo-card.small {
-  height: 240px; /* altura fija proporcional */
+  height: 240px;
 }
 
 .photo-img {
@@ -522,6 +557,7 @@ h1 {
   border-radius: 18px;
   background: linear-gradient(145deg, #fce4ec, #ffd6e7);
 }
+
 .loading-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
@@ -538,7 +574,8 @@ h1 {
 }
 
 .dot {
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #f4a8c8;
   cursor: pointer;
@@ -546,6 +583,7 @@ h1 {
   padding: 0;
   transition: all 0.3s;
 }
+
 .dot.active {
   width: 20px;
   border-radius: 4px;
@@ -559,6 +597,7 @@ h1 {
   position: absolute;
   inset: 0;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
@@ -566,11 +605,22 @@ h1 {
 
 /* Responsive */
 @media (max-width: 768px) {
+
   .hero-inner {
     grid-template-columns: 1fr;
   }
+
   .hero-right {
     display: none;
+  }
+
+  .hero {
+    padding-bottom: 80px;
+  }
+
+  .hero::after {
+    height: 160px;
+    bottom: -90px;
   }
 }
 </style>

@@ -18,6 +18,7 @@ class RoleModuleSeeder extends Seeder
             ['name' => 'Clientes', 'slug' => 'clients'],
             ['name' => 'Categorías de Servicios', 'slug' => 'service-categories'],
             ['name' => 'Servicios', 'slug' => 'services'],
+            ['name' => 'Galería', 'slug' => 'gallery'],
             ['name' => 'Citas', 'slug' => 'cites'],
             ['name' => 'Carusel', 'slug' => 'carousel'],
             ['name' => 'Direccion', 'slug' => 'BusinessSetting'],
@@ -79,6 +80,7 @@ class RoleModuleSeeder extends Seeder
                 'employees',
                 'clients',
                 'services',
+                'gallery',
                 'appointments',
                 'service-categories',
                 'carousel',
@@ -91,6 +93,7 @@ class RoleModuleSeeder extends Seeder
                 'dashboard',
                 'clients',
                 'services',
+                'gallery',
                 'appointments',
                 'service-categories',
             ])->pluck('id')->toArray()

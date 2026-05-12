@@ -140,6 +140,39 @@
     </a>
     @endif
 
+    {{-- GALERÍA --}}
+    @if(auth()->user()->hasModuleAccess('gallery'))
+
+    <a href="{{ route('gallery.index') }}" 
+    class="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition
+    {{ request()->routeIs('gallery.*') 
+        ? 'bg-pink-700 text-pink-100 dark:bg-pink-800 dark:text-pink-50'
+        : 'text-slate-700 hover:bg-slate-100 dark:text-pink-200 dark:hover:bg-[rgba(128,0,64,0.5)]' }}">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-pink-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+
+            <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" />
+
+            <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 15l4-4a2 2 0 012.828 0L14 14l2-2a2 2 0 012.828 0L20 13" />
+
+            <circle cx="9" cy="9" r="2" />
+        </svg>
+
+        Galería
+
+    </a>
+
+    @endif
     </nav>
 
     <!-- Logout -->

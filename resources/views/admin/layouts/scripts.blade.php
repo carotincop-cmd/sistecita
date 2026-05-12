@@ -640,5 +640,91 @@ Alpine.store('bsModal', {
         };
     }
 });
+
+{{-- 🔥 GALLERY MODAL --}}
+@isset($services)
+Alpine.data('galleryModal', () => ({
+
+    open: false,
+    isEdit: false,
+    formAction: '',
+
+    services: @json($services),
+
+    form: {
+        id: null,
+        service_id: '',
+        title: '',
+        description: '',
+        status: '1'
+    },
+
+    // 🔹 Obtener nombre del servicio seleccionado
+    get selectedServiceName() {
+
+        const service = this.services.find(
+            s => s.id == this.form.service_id
+        );
+
+        return service ? service.name : 'Servicio no seleccionado';
+    },
+
+    // 🔥 Crear
+    openCreate() {
+
+        this.open = true;
+        this.isEdit = false;
+
+        this.formAction = "{{ route('gallery.store') }}";
+
+        this.resetForm();
+
+        const existingMethod = document.querySelector(
+            'input[name="_method"]'
+        );
+
+        if (existingMethod) existingMethod.remove();
+    },
+
+    // 🔥 Editar
+    openEdit(gallery) {
+
+        this.open = true;
+        this.isEdit = true;
+
+        this.formAction = "{{ url('gallery') }}/" + gallery.id;
+
+        this.form = {
+            id: gallery.id,
+            service_id: gallery.service_id
+                ? String(gallery.service_id)
+                : '',
+
+            title: gallery.title ?? '',
+            description: gallery.description ?? '',
+            status: gallery.status ? '1' : '0'
+        };
+    },
+
+    // ❌ Cerrar
+    close() {
+        this.open = false;
+    },
+
+    // 🔄 Reset
+    resetForm() {
+
+        this.form = {
+            id: null,
+            service_id: '',
+            title: '',
+            description: '',
+            status: '1'
+        };
+    }
+
+}));
+@endisset
+
 });
 </script>

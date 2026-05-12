@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\CiteController;
 use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\BusinessSettingController;
+use App\Http\Controllers\Admin\GalleryController;
 
 Route::view('/', 'app')->name('home');
 
@@ -63,5 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('direccion', BusinessSettingController::class)
         ->except(['show', 'create', 'edit'])
         ->middleware('module:BusinessSetting');
-
+        
+    Route::resource('gallery', GalleryController::class)
+    ->except(['show', 'create', 'edit'])
+    ->middleware('module:gallery');
 });

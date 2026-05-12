@@ -13,6 +13,7 @@
                             str_starts_with($route, 'dashboard') => 'Dashboard',
                             str_starts_with($route, 'service-categories.') => 'Gestión de Categorías de Servicios',
                             str_starts_with($route, 'services.') => 'Gestión de Servicios',
+                            str_starts_with($route, 'gallery.') => 'Gestión de Galería',
                             str_starts_with($route, 'clients.') => 'Gestión de Clientes',
                             str_starts_with($route, 'employees.') => 'Gestión de Empleados',
                             str_starts_with($route, 'roles.') => 'Gestión de Roles',

@@ -27,4 +27,8 @@ class Service extends Model
     protected $casts = [
     'status' => 'boolean',
     ];
+    public function galleries()
+{
+    return $this->hasMany(Gallery::class);
+}
 }
